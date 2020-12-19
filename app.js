@@ -3,9 +3,21 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 const app = express();
 const port = 3000;
+
+// DB Connection
+mongoose.connect('mongodb://localhost/todo-list', { useNewUrlParser: true, useUnifiedTopology: true });
+const db = mongoose.connection;
+
+db.on('error', () => {
+  console.log('DB Connection FAIL');
+});
+db.once('open', () => {
+  console.log('DB Connection SUCCESS');
+});
 
 // serving static files
 app.use(express.static('public'));
