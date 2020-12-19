@@ -4,6 +4,7 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const Todo = require('./models/todo');
 
 const app = express();
 const port = 3000;
@@ -36,7 +37,24 @@ app.use(bodyParser.urlencoded({
 
 // routes setting
 app.get('/', (req, res) => {
-  res.render('index');
+  Todo.find()
+    .lean()
+    .then((todos) => res.render('index', { todos }))
+    .catch((error) => console.error(error));
+});
+app.get('/todos/new', (req, res) => res.render('new'));
+app.post('/todos', (req, res) => {
+  // The the posted name
+  const { name } = req.body;
+
+  // Created the instance
+  const todo = new Todo({
+    name,
+  });
+
+  return todo.save()
+    .then(() => res.redirect('/')
+      .catch((error) => console.error(error)));
 });
 
 app.post('/', (req, res) => {

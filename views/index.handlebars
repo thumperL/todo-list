@@ -1,2 +1,9 @@
 <!-- ./view/index.handlebars -->
-<h1>this is a todo list</h1>
+<a href="./todos/new">Create</a>
+<ul>
+  {{#each todos}}
+    <li>
+      {{this.name}}
+    </li>
+  {{/each}}
+</ul>
