@@ -42,6 +42,8 @@ app.get('/', (req, res) => {
     .then((todos) => res.render('index', { todos }))
     .catch((error) => console.error(error));
 });
+
+// CREATE Operation
 app.get('/todos/new', (req, res) => res.render('new'));
 app.post('/todos', (req, res) => {
   // The the posted name
@@ -55,6 +57,15 @@ app.post('/todos', (req, res) => {
   return todo.save()
     .then(() => res.redirect('/')
       .catch((error) => console.error(error)));
+});
+
+// READ operation
+app.get('/todos/:id', (req, res) => {
+  const { id } = req.params;
+  return Todo.findById(id)
+    .lean()
+    .then((todo) => res.render('detail', { todo }))
+    .catch((error) => console.log(error));
 });
 
 app.post('/', (req, res) => {
