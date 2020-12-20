@@ -88,6 +88,15 @@ app.post('/todos/:id/edit', (req, res) => {
     .catch((error) => console.log(error));
 });
 
+// DELETE operation
+app.post('/todos/:id/delete', (req, res) => {
+  const { id } = req.params;
+  return Todo.findById(id)
+    .then((todo) => todo.remove())
+    .then(() => res.redirect('/'))
+    .catch((error) => console.log(error));
+});
+
 app.post('/', (req, res) => {
   console.log('get form POST request');
   console.log('req.body', req.body);
