@@ -78,10 +78,21 @@ app.get('/todos/:id/edit', (req, res) => {
 });
 app.post('/todos/:id/edit', (req, res) => {
   const { id } = req.params;
-  const { name } = req.body;
+  const { name, isDone } = req.body;
   return Todo.findById(id)
     .then((todo) => {
       todo.name = name;
+      todo.isDone = isDone === 'on';
+      /*
+        // The line above takes isDone === 'on' first, then assigned to todo.isDone.
+        // Translates to below
+        if (isDone === 'on') {
+          todo.isDone = true
+        } else {
+          todo.isDone = false
+        }
+      */
+
       return todo.save();
     })
     .then(() => res.redirect(`/todos/${id}`))
