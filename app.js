@@ -12,7 +12,7 @@ const User = require('./models/user');
 const routes = require('./routes'); // 引用路由器
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 require('./config/mongoose');
 // serving static files
