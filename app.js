@@ -5,7 +5,9 @@ const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
+const session = require('express-session');
 const Todo = require('./models/todo');
+const User = require('./models/user');
 
 const routes = require('./routes'); // 引用路由器
 
@@ -23,6 +25,9 @@ app.set('view engine', 'handlebars');
 app.use(bodyParser.urlencoded({
   extended: true,
 }));
+app.set('trust proxy', 1);
+app.use(session({ secret: 'Xin4NK7jywJhgJB$PwEB', cookie: { maxAge: 60000 } }));
+
 // 設定每一筆請求都會透過 methodOverride 進行前置處理
 app.use(methodOverride('_method'));
 // Route to handle routing
