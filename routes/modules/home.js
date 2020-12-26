@@ -4,8 +4,10 @@ const express = require('express');
 const router = express.Router();
 // 引用 Todo model
 const Todo = require('../../models/todo');
+const authenticator = require('../../middleware');
+
 // 定義首頁路由
-router.get('/', (req, res) => {
+router.get('/', authenticator.checkLoginStatus, (req, res) => {
   Todo.find()
     .lean()
     .sort({ _id: 'asc' }) // desc
