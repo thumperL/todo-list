@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/todo-list', { useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true });
+const { MONGODB_URI } = process.env || 'mongodb://localhost/todo-list';
+
+mongoose.connect(MONGODB_URI, { useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.on('error', () => {
   console.log('mongodb error!');
