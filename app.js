@@ -6,6 +6,7 @@ const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
+const usePassport = require('./config/passport');
 const Todo = require('./models/todo');
 
 const routes = require('./routes'); // 引用路由器
@@ -27,13 +28,14 @@ app.set('view engine', 'handlebars');
 // Setup sessions, POSTs body parser, use methodOverride to RESTify requests, then add ROUTER
 app.use(session({
   secret: 'ThisIsMySecret',
-  resave: false, // force session back to session store
-  saveUninitialized: true, // force untouched back to session store
+  resave: false, // force save session back to session store
+  saveUninitialized: true, // force save uninit session back to session store
 }));
 app.use(bodyParser.urlencoded({
   extended: true,
 }));
 app.use(methodOverride('_method'));
+usePassport(app);
 app.use(routes);
 
 // start and listen on the Express server
