@@ -36,6 +36,12 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(methodOverride('_method'));
 usePassport(app);
+app.use((req, res, next) => {
+  // res.locals are accessible by views
+  res.locals.isAuthenticated = req.isAuthenticated();
+  res.locals.user = req.user;
+  next();
+});
 app.use(routes);
 
 // start and listen on the Express server
