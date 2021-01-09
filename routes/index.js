@@ -7,11 +7,12 @@ const router = express.Router();
 const home = require('./modules/home');
 const todos = require('./modules/todos');
 const users = require('./modules/users');
+const { authenticator } = require('../middleware/auth');
 
 // Route requests matching first var to the according modules
-router.use('/', home);
-router.use('/todos', todos);
+router.use('/todos', authenticator, todos);
 router.use('/users', users);
+router.use('/', authenticator, home); // avoid unlimited redirect loop
 
 // 匯出路由器
 module.exports = router;
