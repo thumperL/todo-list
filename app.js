@@ -7,6 +7,10 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const flash = require('connect-flash');
+
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 const usePassport = require('./config/passport');
 const Todo = require('./models/todo');
 
@@ -28,7 +32,7 @@ app.set('view engine', 'handlebars');
 
 // Setup sessions, POSTs body parser, use methodOverride to RESTify requests, then add ROUTER
 app.use(session({
-  secret: 'ThisIsMySecret',
+  secret: process.env.SESSION_SECRET,
   resave: false, // force save session back to session store
   saveUninitialized: true, // force save uninit session back to session store
 }));
